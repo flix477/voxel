@@ -32,7 +32,6 @@ fn run() {
 
         camera.update(&input);
         entity.position.set_z(entity.position.z() - 0.001);
-        dbg!(entity.position.z());
 
         renderer.render(dm.display_mut(), &entity, &camera);
     }

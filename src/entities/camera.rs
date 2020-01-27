@@ -23,12 +23,10 @@ impl Updatable for Camera {
     fn update(&mut self, input: &Input) {
         if input.is_key_pressed(keyboard::W) {
             self.position.set_z(self.position.z() - self.speed);
-            dbg!(&self);
         }
 
         if input.is_key_pressed(keyboard::S) {
             self.position.set_z(self.position.z() + self.speed);
-            dbg!(&self);
         }
     }
 }

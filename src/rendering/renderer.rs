@@ -55,7 +55,7 @@ impl Renderer {
             FOV,
             NEAR_PLANE,
             FAR_PLANE,
-            height as f32 / width as f32,
+            width as f32 / height as f32,
         ));
     }
 }

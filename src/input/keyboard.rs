@@ -1,4 +1,4 @@
-use glium::glutin::{ElementState, Event, ScanCode, WindowEvent};
+use glium::glutin::event::{ElementState, Event, ScanCode, WindowEvent};
 use std::collections::hash_set::HashSet;
 
 pub const W: ScanCode = 13;
@@ -12,7 +12,7 @@ pub struct Keyboard {
 }
 
 impl Keyboard {
-    pub fn on_event(&mut self, event: &Event) {
+    pub fn on_event(&mut self, event: &Event<()>) {
         match event {
             Event::WindowEvent {
                 event: WindowEvent::KeyboardInput { input, .. },

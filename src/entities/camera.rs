@@ -12,8 +12,8 @@ pub struct Camera {
 impl Default for Camera {
     fn default() -> Self {
         Self {
-            position: Vector::default(),
-            rotation: Vector::default(),
+            position: Vector([0.0, 1.0, 0.0]),
+            rotation: Vector([-1.0, 0.0, 0.0]),
             speed: 0.01,
         }
     }
@@ -22,11 +22,19 @@ impl Default for Camera {
 impl Updatable for Camera {
     fn update(&mut self, input: &Input) {
         if input.is_key_pressed(keyboard::W) {
-            self.position.set_z(self.position.z() - self.speed);
+            self.position.set_z(self.position.z() + self.speed);
         }
 
         if input.is_key_pressed(keyboard::S) {
-            self.position.set_z(self.position.z() + self.speed);
+            self.position.set_z(self.position.z() - self.speed);
+        }
+
+        if input.is_key_pressed(keyboard::A) {
+            self.position.set_x(self.position.x() - self.speed);
+        }
+
+        if input.is_key_pressed(keyboard::D) {
+            self.position.set_x(self.position.x() + self.speed);
         }
     }
 }

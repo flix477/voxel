@@ -3,7 +3,7 @@ pub mod camera;
 use crate::input::Input;
 use crate::math::vector::Vector;
 use crate::models::RawModel;
-use glium::glutin::Event;
+use glium::glutin::event::Event;
 
 pub struct Entity {
     pub model: RawModel,
@@ -26,6 +26,6 @@ impl Entity {
 }
 
 pub trait Updatable {
-    fn on_event(&mut self, _: &Event) {}
+    fn on_event(&mut self, _: &Event<()>) {}
     fn update(&mut self, input: &Input);
 }

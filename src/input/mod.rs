@@ -1,6 +1,6 @@
 pub mod keyboard;
 
-use glium::glutin::{Event, ScanCode};
+use glium::glutin::event::{Event, ScanCode};
 use keyboard::Keyboard;
 
 #[derive(Default)]
@@ -13,7 +13,7 @@ impl Input {
         self.keyboard.is_key_pressed(key)
     }
 
-    pub fn on_event(&mut self, event: &Event) {
+    pub fn on_event(&mut self, event: &Event<()>) {
         self.keyboard.on_event(event);
     }
 }

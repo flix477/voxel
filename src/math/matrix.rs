@@ -18,15 +18,27 @@ impl Matrix {
         let translation =
             get_translation_matrix(-translation.x(), -translation.y(), -translation.z());
 
-        rotation * translation
+        translation * rotation
     }
 
+    #[inline]
     pub fn get(&self, i: usize, j: usize) -> f32 {
         self.0[i][j]
     }
 
+    #[inline]
     pub fn set(&mut self, i: usize, j: usize, value: f32) {
         self.0[i][j] = value
+    }
+
+    pub fn transposed(self) -> Self {
+        let mut result = Matrix::default();
+        for i in 0..4 {
+            for j in 0..4 {
+                result.set(j, i, self.get(i, j));
+            }
+        }
+        result
     }
 
     pub fn take(self) -> [[f32; 4]; 4] {
@@ -102,15 +114,15 @@ pub fn get_projection_matrix(
     far_plane: f32,
     aspect_ratio: f32,
 ) -> Matrix {
-    let y_scale = 1.0 / (fov / 2.0).tan();
-    let x_scale = y_scale / aspect_ratio;
+    let y_scale = 1.0 / (fov.to_radians() / 2.0).tan();
+    let x_scale = y_scale * aspect_ratio;
     let zp = far_plane + near_plane;
     let zm = far_plane - near_plane;
 
     Matrix([
         [x_scale, 0.0, 0.0, 0.0],
         [0.0, y_scale, 0.0, 0.0],
-        [0.0, 0.0, -zp / zm, -(2.0 * far_plane * near_plane) / zm],
-        [0.0, 0.0, -1.0, 0.0],
+        [0.0, 0.0, zp / zm, 1.0],
+        [0.0, 0.0, -(2.0 * far_plane * near_plane) / zm, 0.0],
     ])
 }

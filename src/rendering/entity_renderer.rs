@@ -12,13 +12,14 @@ impl EntityRenderer {
         projection_matrix: &Matrix,
         camera_matrix: Matrix,
     ) {
+        // TODO: transpose in glsl? transpose everything in matrix.rs?
         let Matrix(transformation_matrix) =
-            Matrix::transformation(&entity.position, &entity.rotation, entity.scale);
+            Matrix::transformation(&entity.position, &entity.rotation, entity.scale).transposed();
         let Matrix(projection_matrix) = projection_matrix.clone();
         let uniforms = uniform! {
             transformation_matrix: transformation_matrix,
             projection_matrix: projection_matrix,
-            camera_matrix: camera_matrix.take(),
+            camera_matrix: camera_matrix.transposed().take(),
             entity_color: entity.color.take()
         };
 

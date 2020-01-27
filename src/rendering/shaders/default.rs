@@ -6,7 +6,7 @@ pub const DEFAULT_SHADER: Shaders = Shaders {
 };
 
 const VERTEX_SHADER: &str = r#"
-    #version 140
+    #version 150
 
     in vec3 position;
 
@@ -15,12 +15,12 @@ const VERTEX_SHADER: &str = r#"
     uniform mat4 camera_matrix;
 
     void main() {
-        gl_Position = camera_matrix * transformation_matrix * projection_matrix * vec4(position, 1.0);
+        gl_Position = projection_matrix * camera_matrix * transformation_matrix * vec4(position, 1.0);
     }
 "#;
 
 const FRAGMENT_SHADER: &str = r#"
-    #version 140
+    #version 150
 
     uniform vec3 entity_color;
     out vec4 color;

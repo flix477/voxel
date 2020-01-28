@@ -4,9 +4,10 @@ use crate::input::Input;
 use crate::math::vector::Vector;
 use crate::models::RawModel;
 use glium::glutin::event::Event;
+use std::rc::Rc;
 
 pub struct Entity {
-    pub model: RawModel,
+    pub model: Rc<RawModel>,
     pub position: Vector,
     pub rotation: Vector,
     pub color: Vector,
@@ -14,7 +15,7 @@ pub struct Entity {
 }
 
 impl Entity {
-    pub fn new(model: RawModel) -> Self {
+    pub fn new(model: Rc<RawModel>) -> Self {
         Self {
             model,
             position: Vector::default(),

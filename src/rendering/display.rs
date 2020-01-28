@@ -11,7 +11,7 @@ pub struct DisplayManager {
 impl DisplayManager {
     pub fn new(events_loop: &EventLoop<()>) -> Result<Self, DisplayCreationError> {
         let wb = WindowBuilder::new();
-        let cb = ContextBuilder::new();
+        let cb = ContextBuilder::new().with_depth_buffer(24);
         let display = Display::new(wb, cb, events_loop)?;
 
         Ok(Self { display })

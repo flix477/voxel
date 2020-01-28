@@ -2,6 +2,8 @@ use crate::entities::Updatable;
 use crate::input::{keyboard, Input};
 use crate::math::vector::Vector;
 
+const ANGLE: f32 = -55.0;
+
 #[derive(Debug)]
 pub struct Camera {
     pub position: Vector,
@@ -12,8 +14,8 @@ pub struct Camera {
 impl Default for Camera {
     fn default() -> Self {
         Self {
-            position: Vector([0.0, 1.0, 0.0]),
-            rotation: Vector([-1.0, 0.0, 0.0]),
+            position: Vector([0.0, 3.0, -3.0]),
+            rotation: Vector([ANGLE.to_radians(), 0.0, 0.0]),
             speed: 0.01,
         }
     }
@@ -22,11 +24,15 @@ impl Default for Camera {
 impl Updatable for Camera {
     fn update(&mut self, input: &Input) {
         if input.is_key_pressed(keyboard::W) {
-            self.position.set_z(self.position.z() + self.speed);
+            let z = self.speed / self.rotation.x().cos();
+            self.position.set_z(self.position.z() + z);
+            self.position.set_y(self.position.y() + z);
         }
 
         if input.is_key_pressed(keyboard::S) {
-            self.position.set_z(self.position.z() - self.speed);
+            let z = self.speed / self.rotation.x().cos();
+            self.position.set_z(self.position.z() - z);
+            self.position.set_y(self.position.y() - z);
         }
 
         if input.is_key_pressed(keyboard::A) {

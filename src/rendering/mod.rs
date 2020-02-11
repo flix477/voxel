@@ -1,5 +1,5 @@
 pub mod display;
 mod entity_renderer;
-pub mod loader;
 pub mod renderer;
+pub mod resources;
 mod shaders;

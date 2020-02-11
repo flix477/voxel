@@ -4,14 +4,14 @@ mod math;
 mod models;
 mod rendering;
 
-use entities::{camera::Camera, Entity, Updatable};
+use entities::{blocks, camera::Camera, Updatable};
 use glium::glutin::{
     event::{Event, WindowEvent},
     event_loop::{ControlFlow, EventLoop},
 };
 use input::Input;
-use models::primitives::{CUBE_INDICES, CUBE_NORMALS, CUBE_VERTICES};
-use rendering::{display::DisplayManager, loader::Loader, renderer::Renderer};
+use models::primitives::CUBE;
+use rendering::{display::DisplayManager, renderer::Renderer, resources};
 use std::rc::Rc;
 
 fn main() {
@@ -25,24 +25,25 @@ fn run() {
     let mut input = Input::default();
     let mut camera = Camera::default();
 
-    let cube_model = Rc::new(Loader::create_model(
-        &CUBE_VERTICES,
-        &CUBE_INDICES,
-        &CUBE_NORMALS,
-        dm.display(),
-    ));
-    let size = 2;
-    let sizef = size as f32;
-    let entities: Vec<Entity> = (0..size * size)
-        .map(|i| {
-            let i = i as f32;
-            let mut entity = Entity::new(cube_model.clone());
-            entity.scale = 1.0;
-            entity.position.set_x((i / sizef).floor() * entity.scale);
-            entity.position.set_z((i % sizef) * entity.scale);
-            entity
-        })
-        .collect();
+    let cube_model = Rc::new(resources::create_model(&CUBE, dm.display()));
+    let mut dirt_block = blocks::DIRT
+        .create_entity(dm.display(), cube_model)
+        .unwrap();
+    dirt_block.scale = 1.0;
+    let entities = vec![dirt_block];
+
+    //let size = 2;
+    //let sizef = size as f32;
+    //let entities: Vec<Entity> = (0..size * size)
+    //    .map(|i| {
+    //        let i = i as f32;
+    //        let mut entity = Entity::new(cube_model.clone());
+    //        entity.scale = 1.0;
+    //        entity.position.set_x((i / sizef).floor() * entity.scale);
+    //        entity.position.set_z((i % sizef) * entity.scale);
+    //        entity
+    //    })
+    //    .collect();
 
     event_loop.run(move |event, _, control_flow| {
         if let Event::WindowEvent {
